@@ -11,10 +11,13 @@
 		"deploy": "npm run build && wrangler pages deploy"
 	},
 	"devDependencies": {
+		"@fortawesome/fontawesome-free": "^7.1.0",
 		"@sveltejs/adapter-auto": "^6.1.0",
 		"@sveltejs/adapter-cloudflare": "^7.2.4",
 		"@sveltejs/kit": "^2.43.2",
 		"@sveltejs/vite-plugin-svelte": "^6.2.0",
+		"bootstrap": "^5.3.8",
+		"super-sitemap": "^1.0.5",
 		"svelte": "^5.39.5",
 		"vite": "^7.1.7",
 		"wrangler": "^4.44.0"

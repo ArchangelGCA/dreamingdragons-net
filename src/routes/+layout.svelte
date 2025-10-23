@@ -1,8 +1,10 @@
 <script>
     import Seo from "$lib/components/Seo.svelte";
+    import Navbar from "$lib/components/Navbar.svelte";
     import 'bootstrap/dist/css/bootstrap.min.css';
     import scriptSrc from 'bootstrap/dist/js/bootstrap.bundle.min.js?url';
     import '@fortawesome/fontawesome-free/css/all.min.css';
+    import favicon from '$lib/assets/favicon.webp?url';
 
 	let { children } = $props();
 </script>
@@ -13,6 +15,8 @@
 
 <Seo>
 </Seo>
+
+<Navbar />
 
 {@render children?.()}
 

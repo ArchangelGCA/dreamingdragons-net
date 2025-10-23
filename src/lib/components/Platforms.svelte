@@ -30,7 +30,7 @@
 	];
 </script>
 
-<section id="platforms" class="platforms section">
+<section id="socials" class="platforms section">
 	<div class="container">
 		<div class="platforms-header">
 			<h2 class="section-title">Join Us Anywhere</h2>

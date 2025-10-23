@@ -1,4 +1,6 @@
 <script>
+	import favicon from '$lib/assets/favicon.webp?enhanced';
+	
 	let visible = $state(true);
 </script>
 
@@ -41,15 +43,13 @@
 				</div>
 				<div class="stat">
 					<div class="stat-number">3+</div>
-					<div class="stat-label">Platforms</div>
+					<div class="stat-label">Socials</div>
 				</div>
 			</div>
 		</div>
 		
 		<div class="hero-visual">
-			<div class="dragon-icon">
-				🐉
-			</div>
+			<enhanced:img src={favicon} alt="DreamingDragons Dragon Logo" class="dragon-icon rounded-circle" />
 		</div>
 	</div>
 	
@@ -237,8 +237,10 @@
 		}
 	}
 
-	.dragon-icon {
-		font-size: 20rem;
+	:global(.dragon-icon) {
+		width: 20rem;
+		height: 20rem;
+		object-fit: contain;
 		filter: drop-shadow(0 0 50px rgba(32, 221, 224, 0.6));
 		animation: float 6s ease-in-out infinite;
 	}
@@ -282,8 +284,9 @@
 			font-size: 3rem;
 		}
 
-		.dragon-icon {
-			font-size: 12rem;
+		:global(.dragon-icon) {
+			width: 12rem;
+			height: 12rem;
 		}
 
 		.hero-buttons {
@@ -308,8 +311,9 @@
 			font-size: 1rem;
 		}
 
-		.dragon-icon {
-			font-size: 8rem;
+		:global(.dragon-icon) {
+			width: 8rem;
+			height: 8rem;
 		}
 
 		.hero-stats {

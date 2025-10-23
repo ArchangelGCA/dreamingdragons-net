@@ -1,4 +1,6 @@
 <script>
+	import favicon from '$lib/assets/favicon.webp?enhanced';
+	
 	const currentYear = new Date().getFullYear();
 	
 	const socialLinks = [
@@ -19,7 +21,7 @@
 		<div class="footer-grid">
 			<div class="footer-section">
 				<div class="footer-logo">
-					<span class="dragon-emoji">🐉</span>
+					<enhanced:img src={favicon} alt="DreamingDragons Logo" class="dragon-emoji rounded-circle" />
 					<h3>DreamingDragons</h3>
 				</div>
 				<p class="footer-description">
@@ -180,8 +182,10 @@
 		margin-bottom: 1rem;
 	}
 
-	.dragon-emoji {
-		font-size: 2.5rem;
+	:global(.dragon-emoji) {
+		width: 2.5rem;
+		height: 2.5rem;
+		object-fit: contain;
 		filter: drop-shadow(0 0 10px rgba(32, 221, 224, 0.5));
 	}
 

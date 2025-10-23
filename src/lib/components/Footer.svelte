@@ -11,7 +11,7 @@
 
 	const quickLinks = [
 		{ text: 'About', href: '#about' },
-		{ text: 'Platforms', href: '#platforms' },
+		{ text: 'Platforms', href: '#socials' },
 		{ text: 'Community', href: '#community' }
 	];
 </script>

@@ -27,7 +27,7 @@
 				<a href="https://discord.gg/u6qFjfDDy2" target="_blank" rel="noopener noreferrer" class="btn-primary">
 					<i class="fab fa-discord"></i> Join Discord
 				</a>
-				<a href="#platforms" class="btn-outline">
+				<a href="#socials" class="btn-outline">
 					<i class="fas fa-compass"></i> Explore
 				</a>
 			</div>

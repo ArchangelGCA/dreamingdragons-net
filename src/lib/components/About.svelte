@@ -164,7 +164,7 @@
 	.feature-item {
 		display: flex;
 		gap: 1.5rem;
-		align-items: start;
+		align-items: center;
 		padding: 1.5rem;
 		background: rgba(15, 44, 75, 0.3);
 		border-radius: 12px;
@@ -264,6 +264,7 @@
 
 		.feature-item {
 			flex-direction: column;
+			align-items: center;
 			text-align: center;
 		}
 

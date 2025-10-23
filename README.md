@@ -1,22 +1,24 @@
-# sv
+# dreamingdragons.net
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## 🐉 About
 
-## Creating a project
+DreamingDragons is a community founded by [ArchangelGCA](https://archangelgca.eu) that brings together 2.7K+ members and 2.6K+ watchers across multiple platforms:
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Discord**: Active community chat, support and announcements
+- **DeviantArt**: Main art gallery and contest hub
+- **Tales Platform**: Our own platform for dragon art and stories
 
-```sh
-# create a new project in the current directory
-npx sv create
+## 🛠️ Tech Stack
 
-# create a new project in my-app
-npx sv create my-app
-```
+- **Svelte 5**
+- **SvelteKit 2**
+- **Bootstrap 5.3.8**
+- **Font Awesome 7.1.0**
+- **Cloudflare Pages** deployment
 
-## Developing
+## 🚀 Getting Started
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Once you've installed dependencies with `npm install`, start a development server:
 
 ```sh
 npm run dev

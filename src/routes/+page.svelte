@@ -1,11 +1,13 @@
 <script>
-    import {onMount} from "svelte";
-
+	import Hero from '$lib/components/Hero.svelte';
+	import About from '$lib/components/About.svelte';
+	import Platforms from '$lib/components/Platforms.svelte';
+	import Community from '$lib/components/Community.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 </script>
 
-
-
-
-<style>
-
-</style>
+<Hero />
+<About />
+<Platforms />
+<Community />
+<Footer />

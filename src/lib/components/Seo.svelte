@@ -14,6 +14,8 @@
      * type?: string,
      * author?: string,
      * name?: string,
+     * url?: string,
+     * hostname?: string,
      * index?: boolean,
      * twitter?: boolean,
      * openGraph?: boolean,
@@ -29,7 +31,9 @@
     const title = $derived(page.data.title ?? rest.title ?? "");
     const description = $derived(page.data.description ?? rest.description ?? "");
     const keywords = $derived(page.data.keywords ?? rest.keywords ?? "");
-    const canonical = $derived(page.data.canonical ?? rest.canonical ?? page.url.href);
+    const canonical = $derived(page.data.canonical ?? rest.canonical ?? "");
+    const url = $derived(page.data.url ?? rest.url ?? "");
+    const hostname = $derived(page.data.hostname ?? rest.hostname ?? "");
     const siteName = $derived(page.data.siteName ?? rest.siteName ?? "");
     const imageURL = $derived(page.data.imageURL ?? rest.imageURL ?? "");
     const logo = $derived(page.data.logo ?? rest.logo ?? "");
@@ -48,11 +52,13 @@
 
     const robotsContent = $derived(index ? `index, follow${imageURL ? ", max-image-preview:large" : ""}` : "noindex");
 
+    const origin = $derived(url ? new URL(url).origin : "");
+    
     const jsonLdObject = $derived({
         "@context": "https://schema.org",
         "@type": schemaType.length > 1 ? schemaType : schemaType[0],
         name: name,
-        url: page.url.origin,
+        url: origin,
         image: imageURL,
         logo: {
             "@type": "ImageObject",
@@ -91,7 +97,7 @@
             <meta property="og:site_name" content={siteName}>
         {/if}
         {#if title}
-            <meta property="og:url" content={page.url.href}>
+            <meta property="og:url" content={url}>
             <meta property="og:type" content={type}>
             <meta property="og:title" content={title}>
         {/if}
@@ -109,8 +115,8 @@
     {#if twitter}
         {#if title}
             <meta name="twitter:card" content="summary_large_image">
-            <meta property="twitter:domain" content={page.url.hostname}>
-            <meta property="twitter:url" content={page.url.href}>
+            <meta property="twitter:domain" content={hostname}>
+            <meta property="twitter:url" content={url}>
             <meta name="twitter:title" content={title}>
         {/if}
         {#if description}

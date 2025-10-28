@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="about-content">
 			<div class="about-header">
-				<h2 class="section-title">About DreamingDragons</h2>
+				<h2 class="section-title pb-1">About DreamingDragons</h2>
 				<div class="title-underline"></div>
 			</div>
 			

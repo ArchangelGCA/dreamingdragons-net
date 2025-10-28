@@ -33,7 +33,7 @@
 <section id="socials" class="platforms section">
 	<div class="container">
 		<div class="platforms-header">
-			<h2 class="section-title">Join Us Anywhere</h2>
+			<h2 class="section-title pb-1">Join Us Anywhere</h2>
 			<div class="title-underline"></div>
 			<p class="section-subtitle">
 				Connect with DreamingDragons across multiple socials. Choose your favorite or join them all!

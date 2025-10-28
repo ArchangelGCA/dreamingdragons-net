@@ -49,7 +49,7 @@
 <section id="community" class="community section">
 	<div class="container">
 		<div class="community-header">
-			<h2 class="section-title">Community Features</h2>
+			<h2 class="section-title pb-1">Community Features</h2>
 			<div class="title-underline"></div>
 			<p class="section-subtitle">
 				Everything you need to thrive as an artist in our dragon-loving community

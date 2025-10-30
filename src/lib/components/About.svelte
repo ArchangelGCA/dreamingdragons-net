@@ -24,28 +24,28 @@
 						<div class="feature-item">
 							<i class="fas fa-palette"></i>
 							<div>
-								<h4>Share Your Art</h4>
+								<h3>Share Your Art</h3>
 								<p>Showcase your artworks with us</p>
 							</div>
 						</div>
 						<div class="feature-item">
 							<i class="fas fa-book"></i>
 							<div>
-								<h4>Write Stories</h4>
+								<h3>Write Stories</h3>
 								<p>Share your dragon tales and literature with our community</p>
 							</div>
 						</div>
 						<div class="feature-item">
 							<i class="fas fa-users"></i>
 							<div>
-								<h4>Connect & Collaborate</h4>
+								<h3>Connect & Collaborate</h3>
 								<p>Meet fellow artists, get feedback, and collaborate on projects</p>
 							</div>
 						</div>
 						<div class="feature-item">
 							<i class="fas fa-trophy"></i>
 							<div>
-								<h4>Join Contests</h4>
+								<h3>Join Contests</h3>
 								<p>Participate in art contests and showcase your skills</p>
 							</div>
 						</div>
@@ -184,7 +184,7 @@
 		min-width: 2rem;
 	}
 
-	.feature-item h4 {
+	.feature-item h3 {
 		margin-bottom: 0.5rem;
 		color: var(--color-lightest);
 		font-size: 1.2rem;

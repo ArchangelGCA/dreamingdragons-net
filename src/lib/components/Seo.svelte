@@ -78,6 +78,10 @@
         <title>{title}</title>
         <meta name="robots" content={robotsContent}>
         <link rel="canonical" href={canonical}>
+        
+        {#if imageURL}
+            <link rel="shortcut icon" href={imageURL}>
+        {/if}
     {/if}
 
     {#if description}

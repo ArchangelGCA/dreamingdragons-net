@@ -1,3 +1,5 @@
-# allow crawling everything by default
 User-agent: *
+Allow: /
 Disallow:
+
+Sitemap: https://dreamingdragons.net/sitemap.xml

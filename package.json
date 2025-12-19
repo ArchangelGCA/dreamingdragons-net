@@ -1,7 +1,7 @@
 {
 	"name": "dreamingdragons-net",
 	"private": true,
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -19,8 +19,8 @@
 		"bootstrap": "^5.3.8",
 		"super-sitemap": "^1.0.5",
 		"svelte": "^5.46.0",
-		"vite": "^7.2.7",
+		"vite": "^7.3.0",
 		"vite-plugin-devtools-json": "^1.0.0",
-		"wrangler": "^4.54.0"
+		"wrangler": "^4.56.0"
 	}
 }

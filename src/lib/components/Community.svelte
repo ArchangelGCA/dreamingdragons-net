@@ -3,57 +3,48 @@
 		{
 			icon: 'fas fa-trophy',
 			title: 'Contests',
-			description: 'Participate in seasonal art contests with themes like our recent Summer Contest. Show off your skills!',
 			gradient: 'linear-gradient(135deg, #FFD700, #FFA500)'
 		},
 		{
 			icon: 'fas fa-image',
 			title: 'Art Galleries',
-			description: 'Submit your work to our organized galleries: Digital Art, Traditional Art, Comics, OCs, and more.',
 			gradient: 'linear-gradient(135deg, #00a594, #20dde0)'
 		},
 		{
 			icon: 'fas fa-handshake',
 			title: 'Collaborations',
-			description: 'Work with other artists, join group projects, and expand your creative network. We welcome affiliations and partnerships!',
 			gradient: 'linear-gradient(135deg, #9333EA, #C084FC)'
 		},
 		{
 			icon: 'fas fa-comments',
 			title: 'Active Community',
-			description: 'Engage in discussions, get feedback on your work, and share tips and techniques with thousands of supportive members.',
 			gradient: 'linear-gradient(135deg, #0f2c4b, #004a5a)'
 		},
 		{
 			icon: 'fas fa-star',
 			title: 'Featured Artists',
-			description: 'Outstanding works get featured on Featured gallery. Be of inspiration to others!',
 			gradient: 'linear-gradient(135deg, #DC2626, #F87171)'
 		},
 		{
 			icon: 'fas fa-ban',
 			title: 'Quality Standards',
-			description: 'NO AI Art, NO NSFW. We maintain high standards for original, creative content in a family-friendly environment.',
 			gradient: 'linear-gradient(135deg, #059669, #10B981)'
 		}
 	];
 
 	const stats = [
-		{ number: '2.7K+', label: 'Active Members', icon: 'fas fa-users' },
-		{ number: '2.6K+', label: 'Watchers', icon: 'fas fa-eye' },
-		{ number: '100+', label: 'Monthly Submissions', icon: 'fas fa-images' },
-		{ number: '2+', label: 'Years Strong', icon: 'fas fa-calendar' }
+		{ number: '3K+', label: 'Members', icon: 'fas fa-users' },
+		{ number: '2.8K+', label: 'Watchers', icon: 'fas fa-eye' },
+		{ number: '100+', label: 'Monthly Art', icon: 'fas fa-images' },
+		{ number: '3+', label: 'Years Strong', icon: 'fas fa-calendar' }
 	];
 </script>
 
 <section id="community" class="community section">
 	<div class="container">
 		<div class="community-header">
-			<h2 class="section-title pb-1">Community Features</h2>
+			<h2 class="section-title pb-1">Community</h2>
 			<div class="title-underline"></div>
-			<p class="section-subtitle">
-				Everything you need to thrive as an artist in our dragon-loving community
-			</p>
 		</div>
 		
 		<div class="features-grid">
@@ -63,13 +54,11 @@
 						<i class={feature.icon}></i>
 					</div>
 					<h3>{feature.title}</h3>
-					<p>{feature.description}</p>
 				</div>
 			{/each}
 		</div>
 		
 		<div class="stats-section">
-			<h3 class="stats-title">Our Growing Community</h3>
 			<div class="stats-grid">
 				{#each stats as stat (stat.label)}
 					<div class="stat-card">
@@ -83,13 +72,12 @@
 		
 		<div class="cta-box">
 			<h3>Ready to Join?</h3>
-			<p>Become part of our thriving community today. No requirements, just passion for dragons!</p>
 			<div class="cta-buttons">
 				<a href="https://discord.gg/u6qFjfDDy2" target="_blank" rel="noopener noreferrer" class="btn-primary">
-					<i class="fab fa-discord"></i> Join Discord
+					<i class="fab fa-discord"></i> Discord
 				</a>
 				<a href="https://www.deviantart.com/dreamingdragons" target="_blank" rel="noopener noreferrer" class="btn-outline">
-					<i class="fab fa-deviantart"></i> Join on DeviantArt
+					<i class="fab fa-deviantart"></i> DeviantArt
 				</a>
 			</div>
 		</div>
@@ -132,13 +120,6 @@
 		background: var(--gradient-dragon);
 		margin: 0 auto 1.5rem;
 		border-radius: 2px;
-	}
-
-	.section-subtitle {
-		font-size: 1.2rem;
-		color: var(--color-light);
-		max-width: 700px;
-		margin: 0 auto;
 	}
 
 	.features-grid {
@@ -200,24 +181,12 @@
 
 	.feature-card h3 {
 		font-size: 1.5rem;
-		margin-bottom: 1rem;
 		color: var(--color-lightest);
-	}
-
-	.feature-card p {
-		color: var(--color-light);
-		line-height: 1.8;
 	}
 
 	.stats-section {
 		margin: 5rem 0;
 		text-align: center;
-	}
-
-	.stats-title {
-		font-size: 2.5rem;
-		margin-bottom: 3rem;
-		color: var(--color-lightest);
 	}
 
 	.stats-grid {
@@ -288,19 +257,8 @@
 
 	.cta-box h3 {
 		font-size: 2.5rem;
-		margin-bottom: 1rem;
-		color: var(--color-lightest);
-		position: relative;
-		z-index: 1;
-	}
-
-	.cta-box p {
-		font-size: 1.3rem;
-		color: var(--color-light);
 		margin-bottom: 2rem;
-		max-width: 700px;
-		margin-left: auto;
-		margin-right: auto;
+		color: var(--color-lightest);
 		position: relative;
 		z-index: 1;
 	}
@@ -350,10 +308,6 @@
 			font-size: 2.5rem;
 		}
 
-		.stats-title {
-			font-size: 2rem;
-		}
-
 		.features-grid {
 			grid-template-columns: 1fr;
 			max-width: 500px;
@@ -367,20 +321,12 @@
 			font-size: 2rem;
 		}
 
-		.stats-title {
-			font-size: 1.75rem;
-		}
-
 		.cta-box {
 			padding: 3rem 1.5rem;
 		}
 
 		.cta-box h3 {
 			font-size: 2rem;
-		}
-
-		.cta-box p {
-			font-size: 1.1rem;
 		}
 
 		.cta-buttons {

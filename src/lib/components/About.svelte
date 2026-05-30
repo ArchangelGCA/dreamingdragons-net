@@ -2,51 +2,36 @@
 	<div class="container">
 		<div class="about-content">
 			<div class="about-header">
-				<h2 class="section-title pb-1">About DreamingDragons</h2>
+				<h2 class="section-title pb-1">About</h2>
 				<div class="title-underline"></div>
 			</div>
 			
 			<div class="about-grid">
 				<div class="about-text">
-					<p class="lead">
-						Welcome to <strong>DreamingDragons</strong>, where creativity takes flight and imagination knows no bounds!
-					</p>
-					<p>
-						Founded by <a href="https://archangelgca.eu/" target="_blank" rel="noopener noreferrer">ArchangelGCA</a>,
-						DreamingDragons is a thriving community of artists who share a deep passion for dragons and fantasy.
-					</p>
-					<p>
-						Whether you're a seasoned artist, an aspiring one, or simply someone who loves dragon art,
-						you'll find a welcoming home here among thousands of like-minded creators.
-					</p>
-					
+					<p class="lead"> A community of artists passionate about dragons and fantasy. Founded by <a href="https://archangelgca.eu/" target="_blank" rel="noopener noreferrer">ArchangelGCA</a>. </p>
 					<div class="features-list">
 						<div class="feature-item">
 							<i class="fas fa-palette"></i>
 							<div>
-								<h3>Share Your Art</h3>
-								<p>Showcase your artworks with us</p>
+								<h3>Share Art</h3>
 							</div>
 						</div>
 						<div class="feature-item">
 							<i class="fas fa-book"></i>
 							<div>
 								<h3>Write Stories</h3>
-								<p>Share your dragon tales and literature with our community</p>
 							</div>
 						</div>
 						<div class="feature-item">
 							<i class="fas fa-users"></i>
 							<div>
-								<h3>Connect & Collaborate</h3>
-								<p>Meet fellow artists, get feedback, and collaborate on projects</p>
+								<h3>Collaborate</h3>
 							</div>
 						</div>
 						<div class="feature-item">
 							<i class="fas fa-trophy"></i>
 							<div>
 								<h3>Join Contests</h3>
-								<p>Participate in art contests and showcase your skills</p>
 							</div>
 						</div>
 					</div>
@@ -58,23 +43,23 @@
 							<i class="fas fa-fire"></i>
 						</div>
 						<h3>No Requirements</h3>
-						<p>Everyone is welcome! Members are automatically accepted with no barriers to entry.</p>
+						<p>Everyone welcome</p>
 					</div>
 					
 					<div class="highlight-card">
 						<div class="highlight-icon">
 							<i class="fas fa-shield-alt"></i>
 						</div>
-						<h3>NO AI - NO NSFW</h3>
-						<p>We maintain a creative, original, and family-friendly environment for all members.</p>
+						<h3>NO AI · NO NSFW</h3>
+						<p>Original & family-friendly</p>
 					</div>
 					
 					<div class="highlight-card">
 						<div class="highlight-icon">
 							<i class="fas fa-globe"></i>
 						</div>
-						<h3>Socials</h3>
-						<p>Connect with us on DeviantArt, Discord, and our own platform.</p>
+						<h3>Multi-Platform</h3>
+						<p>Discord · DeviantArt · Tales</p>
 					</div>
 				</div>
 			</div>
@@ -185,15 +170,8 @@
 	}
 
 	.feature-item h3 {
-		margin-bottom: 0.5rem;
 		color: var(--color-lightest);
 		font-size: 1.2rem;
-	}
-
-	.feature-item p {
-		margin: 0;
-		color: var(--color-light);
-		font-size: 1rem;
 	}
 
 	.about-highlights {

@@ -18,10 +18,6 @@
 			<p class="hero-subtitle">
 				Breathing fire into our dreams
 			</p>
-			<p class="hero-description">
-				A vibrant community of artists who share a passion for dragons.
-				Join thousands of creators in celebrating dragon art and fantasy.
-			</p>
 			
 			<div class="hero-buttons">
 				<a href="https://discord.gg/u6qFjfDDy2" target="_blank" rel="noopener noreferrer" class="btn-primary">
@@ -34,11 +30,11 @@
 			
 			<div class="hero-stats">
 				<div class="stat">
-					<div class="stat-number">2.7K+</div>
+					<div class="stat-number">3.0K+</div>
 					<div class="stat-label">Members</div>
 				</div>
 				<div class="stat">
-					<div class="stat-number">2.6K+</div>
+					<div class="stat-number">2.8K+</div>
 					<div class="stat-label">Watchers</div>
 				</div>
 				<div class="stat">
@@ -168,17 +164,9 @@
 	.hero-subtitle {
 		font-size: 1.5rem;
 		color: var(--color-accent-light);
-		margin-bottom: 1.5rem;
+		margin-bottom: 2rem;
 		font-style: italic;
 		animation: slideInLeft 0.8s ease-out 0.2s both;
-	}
-
-	.hero-description {
-		font-size: 1.2rem;
-		color: var(--color-light);
-		margin-bottom: 2rem;
-		line-height: 1.8;
-		animation: slideInLeft 0.8s ease-out 0.4s both;
 	}
 
 	.hero-buttons {
@@ -186,7 +174,7 @@
 		gap: 1rem;
 		margin-bottom: 3rem;
 		flex-wrap: wrap;
-		animation: slideInLeft 0.8s ease-out 0.6s both;
+		animation: slideInLeft 0.8s ease-out 0.4s both;
 	}
 
 	.hero-buttons a {
@@ -305,10 +293,6 @@
 
 		.hero-subtitle {
 			font-size: 1.2rem;
-		}
-
-		.hero-description {
-			font-size: 1rem;
 		}
 
 		:global(.dragon-icon) {

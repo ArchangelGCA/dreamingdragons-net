@@ -6,7 +6,7 @@
 	const socialLinks = [
 		{ icon: 'fab fa-discord', url: 'https://discord.gg/u6qFjfDDy2', label: 'Discord' },
 		{ icon: 'fab fa-deviantart', url: 'https://www.deviantart.com/dreamingdragons', label: 'DeviantArt' },
-		{ icon: 'fas fa-dragon', url: 'https://tales.archangelgca.eu/', label: 'DreamingDragons Tales' }
+		{ icon: 'fas fa-dragon', url: 'https://tales.archangelgca.eu/', label: 'Tales' }
 	];
 
 	const quickLinks = [
@@ -24,10 +24,6 @@
 					<enhanced:img src={favicon} alt="DreamingDragons Logo" class="dragon-emoji rounded-circle" />
 					<h3>DreamingDragons</h3>
 				</div>
-				<p class="footer-description">
-					A thriving community of artists and writers passionate about dragons. 
-					Join us and let your creativity soar!
-				</p>
 				<div class="social-links">
 					{#each socialLinks as social (social.label)}
 						<a 
@@ -58,44 +54,11 @@
 			</div>
 			
 			<div class="footer-section">
-				<h4>Our Socials</h4>
+				<h4>Rules</h4>
 				<ul class="footer-links">
-					<li>
-						<a href="https://discord.gg/u6qFjfDDy2" target="_blank" rel="noopener noreferrer">
-							<i class="fab fa-discord"></i>
-							Discord
-						</a>
-					</li>
-					<li>
-						<a href="https://www.deviantart.com/dreamingdragons" target="_blank" rel="noopener noreferrer">
-							<i class="fab fa-deviantart"></i>
-							DeviantArt
-						</a>
-					</li>
-					<li>
-						<a href="https://tales.archangelgca.eu/" target="_blank" rel="noopener noreferrer">
-							<i class="fas fa-dragon"></i>
-							Tales
-						</a>
-					</li>
-				</ul>
-			</div>
-			
-			<div class="footer-section">
-				<h4>Community Rules</h4>
-				<ul class="footer-links">
-					<li>
-						<i class="fas fa-ban"></i>
-						NO AI Art
-					</li>
-					<li>
-						<i class="fas fa-ban"></i>
-						NO NSFW Content
-					</li>
-					<li>
-						<i class="fas fa-check"></i>
-						Everyone Welcome
-					</li>
+					<li> <i class="fas fa-ban"></i> NO AI Art </li>
+					<li> <i class="fas fa-ban"></i> NO NSFW </li>
+					<li> <i class="fas fa-check"></i> Everyone Welcome </li>
 				</ul>
 			</div>
 		</div>
@@ -104,13 +67,7 @@
 		
 		<div class="footer-bottom">
 			<p class="copyright">
-				© {currentYear} DreamingDragons. Founded by 
-				<a href="https://archangelgca.eu/" target="_blank" rel="noopener noreferrer">
-					ArchangelGCA
-				</a>
-			</p>
-			<p class="tagline">
-				Breathing fire into our dreams since 2023
+				© {currentYear} DreamingDragons · <a href="https://archangelgca.eu/" target="_blank" rel="noopener noreferrer">ArchangelGCA</a>
 			</p>
 		</div>
 	</div>
@@ -145,7 +102,7 @@
 
 	.footer-grid {
 		display: grid;
-		grid-template-columns: 2fr 1fr 1fr 1fr;
+		grid-template-columns: 2fr 1fr 1fr;
 		gap: 2rem;
 		margin-bottom: 3rem;
 	}
@@ -179,7 +136,7 @@
 		display: flex;
 		align-items: center;
 		gap: 1rem;
-		margin-bottom: 1rem;
+		margin-bottom: 1.5rem;
 	}
 
 	:global(.dragon-emoji) {
@@ -195,12 +152,6 @@
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-clip: text;
-	}
-
-	.footer-description {
-		color: var(--color-light);
-		line-height: 1.8;
-		margin-bottom: 1.5rem;
 	}
 
 	.social-links {
@@ -281,12 +232,6 @@
 	.copyright a:hover {
 		color: var(--color-lightest);
 		text-decoration: underline;
-	}
-
-	.tagline {
-		font-style: italic;
-		color: var(--color-accent-light);
-		font-size: 0.95rem;
 	}
 
 	.footer-decoration {

@@ -1,4 +1,5 @@
 <script>
+	import { resolve } from '$app/paths';
 	import { scrollY } from 'svelte/reactivity/window';
 	import favicon from '$lib/assets/favicon.webp?enhanced';
 	
@@ -26,15 +27,16 @@
 	});
 	
 	const navLinks = [
-		{ href: '#about', label: 'About', icon: 'fa-info-circle' },
-		{ href: '#socials', label: 'Socials', icon: 'fa-share-alt' },
-		{ href: '#community', label: 'Community', icon: 'fa-users' }
+		{ href: resolve('/#about'), label: 'About', icon: 'fa-info-circle' },
+		{ href: resolve('/#socials'), label: 'Socials', icon: 'fa-share-alt' },
+		{ href: resolve('/#community'), label: 'Community', icon: 'fa-users' },
+		{ href: resolve('/game'), label: 'Game', icon: 'fa-gamepad' }
 	];
 </script>
 
 <nav class={{ navbar: true, 'navbar-hidden': !isVisible, 'navbar-scrolled': !isAtTop }}>
 	<div class="navbar-container container">
-		<a href="/" class="navbar-brand">
+		<a href={resolve('/')} class="navbar-brand">
 			<enhanced:img src={favicon} alt="DreamingDragons Logo" class="navbar-logo rounded-circle" />
 			<span>DreamingDragons</span>
 		</a>

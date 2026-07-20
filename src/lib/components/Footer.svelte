@@ -1,4 +1,5 @@
 <script>
+	import { resolve } from '$app/paths';
 	import favicon from '$lib/assets/favicon.webp?enhanced';
 	
 	const currentYear = new Date().getFullYear();
@@ -10,9 +11,10 @@
 	];
 
 	const quickLinks = [
-		{ text: 'About', href: '#about' },
-		{ text: 'Platforms', href: '#socials' },
-		{ text: 'Community', href: '#community' }
+		{ text: 'About', href: resolve('/#about') },
+		{ text: 'Platforms', href: resolve('/#socials') },
+		{ text: 'Community', href: resolve('/#community') },
+		{ text: 'Play the Game', href: resolve('/game') }
 	];
 </script>
 

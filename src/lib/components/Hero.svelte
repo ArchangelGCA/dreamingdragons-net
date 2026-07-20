@@ -1,4 +1,5 @@
 <script>
+	import { resolve } from '$app/paths';
 	import favicon from '$lib/assets/favicon.webp?enhanced';
 	
 	let visible = $state(true);
@@ -22,6 +23,9 @@
 			<div class="hero-buttons">
 				<a href="https://discord.gg/u6qFjfDDy2" target="_blank" rel="noopener noreferrer" class="btn-primary">
 					<i class="fab fa-discord"></i> Join Discord
+				</a>
+				<a href={resolve('/game')} class="btn-outline">
+					<i class="fas fa-gamepad"></i> Play the Game
 				</a>
 				<a href="#socials" class="btn-outline">
 					<i class="fas fa-compass"></i> Explore

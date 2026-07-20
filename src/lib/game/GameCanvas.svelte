@@ -18,6 +18,7 @@
 		combatAction,
 		updateCombat,
 		resolveCombatEnd,
+		continueAfterDefeat,
 		onKeyDown,
 		onKeyUp,
 		clearJustPressed,
@@ -108,9 +109,17 @@
 			return;
 		}
 
-		if (s.mode === 'victory' || s.mode === 'gameover') {
+		if (s.mode === 'victory') {
 			if (wasActionPressed(s)) {
 				state = createState();
+			}
+			return;
+		}
+
+		if (s.mode === 'gameover') {
+			if (wasActionPressed(s)) {
+				// Soft continue: keep progress, respawn in Nestvale
+				continueAfterDefeat(s);
 			}
 			return;
 		}
@@ -132,6 +141,9 @@
 		maxHp: 30,
 		level: 1,
 		shards: 0,
+		gotFire: false,
+		gotWind: false,
+		gotWater: false,
 		dialogueLine: '',
 		combat: /** @type {null | { name: string, isBoss: boolean, hp: number, maxHp: number, log: string, phase: string, playerHp: number, playerMaxHp: number }} */ (
 			null
@@ -153,6 +165,9 @@
 		if (ui.maxHp !== s.player.maxHp) ui.maxHp = s.player.maxHp;
 		if (ui.level !== s.player.level) ui.level = s.player.level;
 		if (ui.shards !== s.flags.shards) ui.shards = s.flags.shards;
+		if (ui.gotFire !== s.flags.gotFire) ui.gotFire = s.flags.gotFire;
+		if (ui.gotWind !== s.flags.gotWind) ui.gotWind = s.flags.gotWind;
+		if (ui.gotWater !== s.flags.gotWater) ui.gotWater = s.flags.gotWater;
 		if (ui.dialogueLine !== dialogueLine) ui.dialogueLine = dialogueLine;
 
 		if (s.mode === 'combat' && s.combat.enemy) {
@@ -268,6 +283,21 @@
 				drawTile(ctx, tile, 0, 0, s.time);
 				ctx.restore();
 			}
+		}
+
+		// Exit path hints (subtle glow on exit tiles)
+		for (const ex of world.exits) {
+			const locked = ex.requireShards && s.flags.shards < ex.requireShards;
+			const sx = (ex.x - cx) * TILE;
+			const sy = (ex.y - cy) * TILE;
+			if (sx < -TILE || sy < -TILE || sx > VIEW_W * TILE || sy > VIEW_H * TILE) continue;
+			const pulse = Math.floor(s.time / 350) % 2;
+			ctx.fillStyle = locked
+				? 'rgba(120, 40, 80, 0.35)'
+				: pulse
+					? 'rgba(32, 221, 224, 0.45)'
+					: 'rgba(32, 221, 224, 0.25)';
+			ctx.fillRect(sx + 2, sy + 2, TILE - 4, TILE - 4);
 		}
 
 		// NPCs
@@ -415,6 +445,12 @@
 		state = createState();
 	}
 
+	function continueRun() {
+		if (state.mode === 'gameover') {
+			continueAfterDefeat(state);
+		}
+	}
+
 	function focusCanvas() {
 		canvas?.focus();
 	}
@@ -478,10 +514,19 @@
 					<p class="ui-body">
 						{ui.mode === 'victory'
 							? 'The Glitch is sealed. The world dreams on.'
-							: 'Rest at Nestvale… and try again.'}
+							: 'Your shards and levels remain. Wake in Nestvale and try again.'}
 					</p>
-					<p class="ui-prompt">Press Space to return to title</p>
-					<button type="button" class="overlay-btn" onclick={restart}>Play Again</button>
+					<p class="ui-prompt">
+						{ui.mode === 'victory'
+							? 'Press Space to return to title'
+							: 'Press Space to continue · button for new game'}
+					</p>
+					{#if ui.mode === 'gameover'}
+						<button type="button" class="overlay-btn" onclick={continueRun}>Continue</button>
+					{/if}
+					<button type="button" class="overlay-btn" onclick={restart}>
+						{ui.mode === 'victory' ? 'Play Again' : 'New Game'}
+					</button>
 				</div>
 			{:else}
 				<!-- In-game HUD -->
@@ -494,7 +539,12 @@
 							<span class="hud-label">HP {ui.hp}/{ui.maxHp}</span>
 						</div>
 						<span class="hud-chip gold">Lv {ui.level}</span>
-						<span class="hud-chip teal">Shards {ui.shards}/3</span>
+						<span class="hud-chip teal" title="Elemental shards">
+							<span class:on={ui.gotFire} class="shard fire" title="Fire">F</span>
+							<span class:on={ui.gotWind} class="shard wind" title="Wind">W</span>
+							<span class:on={ui.gotWater} class="shard water" title="Water">H</span>
+							<span class="shard-count">{ui.shards}/3</span>
+						</span>
 					</div>
 					<span class="hud-location">{ui.location}</span>
 				</div>
@@ -622,7 +672,7 @@
 			<strong>Combat</strong> 1–4
 		</p>
 		<p class="hint">
-			Talk to NPCs · collect 3 Elemental Shards · enter the dark gate in Bright City
+			Talk to NPCs · Fire &amp; Wind in Bright City · Water on the shore pier · dark gate south of the city
 		</p>
 	</div>
 </div>
@@ -843,6 +893,49 @@
 
 	.hud-chip.teal {
 		color: #20dde0;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+	}
+
+	.shard {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.15rem;
+		height: 1.15rem;
+		border-radius: 4px;
+		font-size: 0.7rem;
+		font-weight: 800;
+		opacity: 0.35;
+		border: 1px solid rgba(240, 248, 255, 0.25);
+		background: rgba(10, 10, 31, 0.6);
+	}
+
+	.shard.on {
+		opacity: 1;
+	}
+
+	.shard.fire.on {
+		color: #ff8060;
+		border-color: rgba(255, 128, 96, 0.7);
+		background: rgba(120, 40, 20, 0.85);
+	}
+
+	.shard.wind.on {
+		color: #90e0ff;
+		border-color: rgba(144, 224, 255, 0.7);
+		background: rgba(20, 60, 100, 0.85);
+	}
+
+	.shard.water.on {
+		color: #60c0ff;
+		border-color: rgba(96, 192, 255, 0.7);
+		background: rgba(20, 50, 110, 0.85);
+	}
+
+	.shard-count {
+		margin-left: 0.15rem;
 	}
 
 	.hud-location {

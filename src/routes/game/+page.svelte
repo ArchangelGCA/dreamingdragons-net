@@ -28,20 +28,21 @@
 
 	<section class="game-lore section">
 		<div class="container lore-grid">
-			<!--<article class="lore-card">
+			<article class="lore-card">
 				<h2>Your Quest</h2>
 				<ol>
 					<li>Speak with Elder Pyra in Nestvale</li>
-					<li>Find the sage dragon Zeno in the Glowing Forest</li>
-					<li>Collect Fire, Wind &amp; Water Shards in Bright City and beyond</li>
-					<li>Enter the Shadow Scar and defeat Erebus</li>
+					<li>Find sage Zeno east in the Glowing Forest</li>
+					<li>Collect Fire &amp; Wind in Bright City, Water on the Eastern Shore pier</li>
+					<li>Enter the dark gate <em>south</em> of Bright City and defeat Erebus</li>
 				</ol>
-			</article>-->
+			</article>
 			<article class="lore-card">
 				<h2>The Story</h2>
 				<p>
-					In the original tale, a celestial anomaly called “the Glitch” is cast into a
-					world of dragons. Then about everything after, not worth it, a waste of time, I don't care.
+					Inspired by <em>Rise and Fall of Raphael: The Glitch</em> — reimagined with only
+					dragons. You are Rafe, born from a crack in the sky. Gather three elemental shards
+					and seal the scar before Shadow Lord Erebus unmakes the world.
 				</p>
 			</article>
 			<article class="lore-card">
@@ -49,8 +50,8 @@
 				<ul>
 					<li>Rest at fountains (teal springs) to restore HP</li>
 					<li>Defeat shade creatures for EXP and levels</li>
-					<li>The dark gate in Bright City opens with 3 shards</li>
-					<li>Boss fights: Attach or Breath for damage, Heal when on low HP</li>
+					<li>Walk the shore pier to reach the Tidekeeper</li>
+					<li>Boss fights: Attack or Breath for damage, Heal on low HP</li>
 				</ul>
 			</article>
 		</div>
@@ -174,8 +175,9 @@
 		margin-bottom: 0.5rem;
 	}
 
-	.lore-card strong {
-		color: var(--color-lightest);
+	.lore-card em {
+		color: var(--color-accent-light);
+		font-style: italic;
 	}
 
 	@media (max-width: 992px) {

@@ -181,7 +181,11 @@ function tryMove(state, dx, dy) {
 	const exit = world.exits.find((e) => e.x === nx && e.y === ny);
 	if (exit) {
 		if (exit.requireShards && state.flags.shards < exit.requireShards) {
-			showToast(state, `Need ${exit.requireShards} shards to enter.`);
+			const need = exit.requireShards - state.flags.shards;
+			showToast(
+				state,
+				`Need ${exit.requireShards} shards (${state.flags.shards}/3). ${need} more!`
+			);
 			return;
 		}
 		// Allow stepping onto exit tile from current side
@@ -296,6 +300,9 @@ function startDialogue(state, npc) {
 		if (state.flags.shards >= 3) lines = scripts.after_shards;
 		else if (state.flags.metZeno) lines = scripts.after_zeno;
 		else lines = scripts.default;
+	} else if (key === 'gatekeeper') {
+		if (state.flags.shards >= 3 && scripts.after_shards) lines = scripts.after_shards;
+		else lines = scripts.default;
 	} else if (once && scripts.after) {
 		lines = scripts.after;
 	} else {
@@ -305,6 +312,7 @@ function startDialogue(state, npc) {
 	// Healer always heals
 	if (key === 'healer') {
 		state.player.hp = state.player.maxHp;
+		showToast(state, 'Fully healed!');
 	}
 
 	state.mode = 'dialogue';
@@ -329,20 +337,35 @@ function finishDialogue(state, npc) {
 	if (key === 'zeno') {
 		state.flags.metZeno = true;
 	}
+	let gotShard = false;
 	if (key === 'nala' && !state.flags.gotFire) {
 		state.flags.gotFire = true;
 		state.flags.shards++;
-		showToast(state, 'Got Fire Shard! (' + state.flags.shards + '/3)');
+		// Fire warms the core — small max HP boost
+		state.player.maxHp += 4;
+		state.player.hp = Math.min(state.player.maxHp, state.player.hp + 4);
+		gotShard = true;
+		showToast(state, 'Fire Shard! Core burns brighter (' + state.flags.shards + '/3)');
 	}
 	if (key === 'razel' && !state.flags.gotWind) {
 		state.flags.gotWind = true;
 		state.flags.shards++;
-		showToast(state, 'Got Wind Shard! (' + state.flags.shards + '/3)');
+		// Wind sharpens strikes
+		state.player.atk += 1;
+		gotShard = true;
+		showToast(state, 'Wind Shard! +1 ATK (' + state.flags.shards + '/3)');
 	}
 	if (key === 'tidekeeper' && !state.flags.gotWater) {
 		state.flags.gotWater = true;
 		state.flags.shards++;
-		showToast(state, 'Got Water Shard! (' + state.flags.shards + '/3)');
+		// Water cools and mends
+		state.player.hp = state.player.maxHp;
+		gotShard = true;
+		showToast(state, 'Water Shard! Fully restored (' + state.flags.shards + '/3)');
+	}
+
+	if (gotShard && state.flags.shards >= 3) {
+		showToast(state, 'All 3 shards! Dark gate south of Bright City opens!', 180);
 	}
 
 	updateQuest(state);
@@ -397,8 +420,11 @@ export function combatAction(state, action) {
 	const p = state.player;
 	const e = c.enemy;
 
+	// Shards empower combat slightly (finishable even if under-leveled)
+	const shardBonus = state.flags.shards || 0;
+
 	if (action === 'attack') {
-		const dmg = Math.max(1, p.atk + rand(-1, 2));
+		const dmg = Math.max(1, p.atk + shardBonus + rand(-1, 2));
 		e.hp -= dmg;
 		c.log = [`You strike for ${dmg} damage!`];
 		if (e.hp <= 0) {
@@ -410,10 +436,14 @@ export function combatAction(state, action) {
 		c.phase = 'enemy';
 		c.animT = 20;
 	} else if (action === 'breath') {
-		// stronger attack, slight self risk flavor only
-		const dmg = Math.max(2, Math.floor(p.atk * 1.6) + rand(0, 2));
+		// Stronger attack; shards add elemental bite
+		const dmg = Math.max(2, Math.floor(p.atk * 1.6) + shardBonus + rand(0, 2));
 		e.hp -= dmg;
-		c.log = [`Dragon breath! ${dmg} damage!`];
+		const label =
+			state.flags.gotFire && state.flags.gotWind && state.flags.gotWater
+				? 'Tri-element breath!'
+				: 'Dragon breath!';
+		c.log = [`${label} ${dmg} damage!`];
 		if (e.hp <= 0) {
 			e.hp = 0;
 			c.phase = 'win';
@@ -423,7 +453,7 @@ export function combatAction(state, action) {
 		c.phase = 'enemy';
 		c.animT = 20;
 	} else if (action === 'heal') {
-		const heal = 8 + rand(0, 4);
+		const heal = 8 + rand(0, 4) + (state.flags.gotWater ? 3 : 0);
 		p.hp = Math.min(p.maxHp, p.hp + heal);
 		c.log = [`You mend scales (+${heal} HP).`];
 		c.phase = 'enemy';
@@ -514,6 +544,25 @@ export function resolveCombatEnd(state) {
 	} else if (c.phase === 'lose') {
 		state.mode = 'gameover';
 	}
+}
+
+/**
+ * Soft continue after defeat: keep shards, levels, and defeated foes;
+ * respawn healed at Nestvale so the run stays finishable.
+ */
+export function continueAfterDefeat(state) {
+	const p = state.player;
+	p.hp = p.maxHp;
+	switchMap(state, 'nestvale', WORLDS.nestvale.spawn.x, WORLDS.nestvale.spawn.y);
+	state.mode = 'play';
+	state.combat = {
+		enemy: null,
+		log: [],
+		phase: 'player',
+		animT: 0
+	};
+	showToast(state, 'You wake by the Dreamspring… try again.', 140);
+	updateQuest(state);
 }
 
 // —— Input helpers ——

@@ -1,14 +1,63 @@
-import { COLORS, TILE } from './constants.js';
-import { T } from './maps.js';
-import { drawSprite, getSprite } from './assets.js';
+import { COLORS, TILE, DIR } from './constants.js';
+import { T, WANG_MAPS, getTile } from './maps.js';
+import {
+	drawSprite,
+	getSprite,
+	getWangTile,
+	getTilesetSheet,
+	getDirectionalSprite,
+	hasDirectionalSet,
+	drawImageCentered
+} from './assets.js';
 
-/** Draw a single pixel-art tile at (px, py) in tile-space (before scale). */
-export function drawTile(ctx, tile, px, py, time = 0) {
-	const x = px * TILE;
-	const y = py * TILE;
+/** Game DIR → PixelLab direction name. */
+const DIR_NAMES = { [DIR.DOWN]: 'south', [DIR.LEFT]: 'west', [DIR.RIGHT]: 'east', [DIR.UP]: 'north' };
+
+/**
+ * Draw a single tile at drawing origin (caller has already translated).
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {string} mapId map the tile belongs to (for Wang corner sampling)
+ * @param {number} tx tile x in map
+ * @param {number} ty tile y in map
+ * @param {number} [time] animation clock
+ */
+export function drawTile(ctx, mapId, tx, ty, time = 0) {
+	const x = 0;
+	const y = 0;
+	const tile = getTile(mapId, tx, ty);
+	const wang = WANG_MAPS.has(mapId) && !!getTilesetSheet();
+
+	// Wang vertex helper: a corner is 'lower' (path) if any of the 4 cells
+	// touching that vertex is path — paths keep their full footprint and
+	// grass takes the transition tiles next to them.
+	const corner = (dx, dy) => {
+		// vertex at tile corner (tx+dx, ty+dy) touches cells
+		// (tx+dx-1, ty+dy-1), (tx+dx, ty+dy-1), (tx+dx-1, ty+dy), (tx+dx, ty+dy)
+		for (const [ox, oy] of [
+			[-1, -1],
+			[0, -1],
+			[-1, 0],
+			[0, 0]
+		]) {
+			if (getTile(mapId, tx + dx + ox, ty + dy + oy) === T.PATH) return 'l';
+		}
+		return 'u';
+	};
+	const wangGrass = () => {
+		// blended tile for a GRASS-ish cell (corners depend on nearby path)
+		const box = getWangTile(corner(0, 0), corner(1, 0), corner(0, 1), corner(1, 1));
+		const sheet = getTilesetSheet();
+		if (box && sheet) {
+			ctx.imageSmoothingEnabled = false;
+			ctx.drawImage(sheet, box.x, box.y, box.w, box.h, x, y, TILE, TILE);
+			return true;
+		}
+		return false;
+	};
 
 	switch (tile) {
 		case T.GRASS: {
+			if (wang && wangGrass()) break;
 			const grass = getSprite('grass');
 			if (grass) {
 				ctx.imageSmoothingEnabled = false;
@@ -22,6 +71,16 @@ export function drawTile(ctx, tile, px, py, time = 0) {
 			break;
 		}
 		case T.PATH: {
+			if (wang) {
+				// path cells have all-lower corners (self touches every vertex)
+				const box = getWangTile('l', 'l', 'l', 'l');
+				const sheet = getTilesetSheet();
+				if (box && sheet) {
+					ctx.imageSmoothingEnabled = false;
+					ctx.drawImage(sheet, box.x, box.y, box.w, box.h, x, y, TILE, TILE);
+					break;
+				}
+			}
 			const path = getSprite('path');
 			if (path) {
 				ctx.imageSmoothingEnabled = false;
@@ -43,7 +102,15 @@ export function drawTile(ctx, tile, px, py, time = 0) {
 			break;
 		}
 		case T.TREE:
-			fill(ctx, x, y, COLORS.grass);
+			if (!(wang && wangGrass())) {
+				const grass = getSprite('grass');
+				if (grass) {
+					ctx.imageSmoothingEnabled = false;
+					ctx.drawImage(grass, x, y, TILE, TILE);
+				} else {
+					fill(ctx, x, y, COLORS.grass);
+				}
+			}
 			// trunk
 			rect(ctx, x + 6, y + 10, 4, 6, '#4a3020');
 			// canopy
@@ -69,7 +136,15 @@ export function drawTile(ctx, tile, px, py, time = 0) {
 			break;
 		}
 		case T.FLOWER:
-			fill(ctx, x, y, COLORS.grass);
+			if (!(wang && wangGrass())) {
+				const grass = getSprite('grass');
+				if (grass) {
+					ctx.imageSmoothingEnabled = false;
+					ctx.drawImage(grass, x, y, TILE, TILE);
+				} else {
+					fill(ctx, x, y, COLORS.grass);
+				}
+			}
 			pxl(ctx, x + 7, y + 8, COLORS.grassLight);
 			// petals
 			pxl(ctx, x + 7, y + 5, COLORS.accentLight);
@@ -117,13 +192,15 @@ export function drawTile(ctx, tile, px, py, time = 0) {
  * @param {CanvasRenderingContext2D} ctx
  * @param {number} px pixel x (tile * TILE + offset)
  * @param {number} py pixel y
- * @param {{ color: string, dir?: number, frame?: number, isPlayer?: boolean, isBoss?: boolean, belly?: string, spriteKey?: string }} opts
+ * @param {{ color: string, dir?: number, frame?: number, moving?: boolean, walkFrame?: number, isPlayer?: boolean, isBoss?: boolean, belly?: string, spriteKey?: string }} opts
  */
 export function drawDragon(ctx, px, py, opts) {
 	const {
 		color,
 		dir = 0,
 		frame = 0,
+		moving = false,
+		walkFrame = 0,
 		isPlayer = false,
 		isBoss = false,
 		belly = COLORS.accentLight,
@@ -131,13 +208,33 @@ export function drawDragon(ctx, px, py, opts) {
 	} = opts;
 	const bob = frame % 2 ? -1 : 0;
 
-	// Prefer PixelLab sprite when available
+	// Directional sprite set (rotations + walk frames) — used by the player
+	if (spriteKey && hasDirectionalSet(spriteKey)) {
+		const dirName = DIR_NAMES[dir] ?? 'south';
+		const img = getDirectionalSprite(spriteKey, dirName, moving, walkFrame);
+		if (img) {
+			const size = isBoss ? 30 : 26;
+			ctx.fillStyle = 'rgba(0,0,0,0.28)';
+			ctx.fillRect(px + 3, py + 13, 10, 3);
+			drawImageCentered(ctx, img, px, py, { size, bob: moving ? 0 : bob });
+			if (isPlayer) {
+				ctx.fillStyle = 'rgba(32, 221, 224, 0.25)';
+				ctx.fillRect(px + 4, py + 12, 8, 2);
+			}
+			return;
+		}
+	}
+
+	// Single-image sprite: flip horizontally when facing left.
+	// The source art faces left, so mirroring shows it facing right;
+	// for LEFT we draw it unflipped.
 	if (spriteKey) {
 		const size = isBoss ? 24 : 18;
 		// soft shadow under sprite
 		ctx.fillStyle = 'rgba(0,0,0,0.28)';
 		ctx.fillRect(px + 3, py + 13, 10, 3);
-		if (drawSprite(ctx, spriteKey, px, py, { size, bob })) {
+		const flipX = dir === DIR.RIGHT;
+		if (drawSprite(ctx, spriteKey, px, py, { size, bob, flipX })) {
 			if (isPlayer) {
 				// teal glow accent
 				ctx.fillStyle = 'rgba(32, 221, 224, 0.25)';

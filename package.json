@@ -9,6 +9,7 @@
 		"preview": "npm run build && wrangler pages dev",
 		"preview2": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
+		"check:maps": "node scripts/check-game-maps.mjs",
 		"deploy": "npm run build && wrangler pages deploy"
 	},
 	"devDependencies": {

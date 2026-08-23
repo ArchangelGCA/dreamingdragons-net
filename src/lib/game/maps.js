@@ -30,6 +30,9 @@ export const T = {
 
 export const SOLID = new Set([T.WATER, T.TREE]);
 
+/** Maps whose ground uses the grass/path Wang tileset (smooth transitions). */
+export const WANG_MAPS = new Set(['nestvale', 'forest']);
+
 /** @param {number[][]} rows */
 function map(rows) {
 	return {
@@ -415,8 +418,8 @@ export const WORLDS = {
 			{ id: 'void5', x: 12, y: 4, name: 'Nightling', hp: 18, maxHp: 18, atk: 5, exp: 14, color: '#3a2060' }
 		],
 		exits: [
-			// Back to city dark gate approach
-			{ map: 'shadow', x: 23, y: 6, toMap: 'city', toX: 20, toY: 12, label: '← Bright City' },
+			// Back to city dark gate approach (land below the Scar Warden, not on them)
+			{ map: 'shadow', x: 23, y: 6, toMap: 'city', toX: 20, toY: 13, label: '← Bright City' },
 			// Only west road leads into the lair
 			{ map: 'shadow', x: 0, y: 6, toMap: 'lair', toX: 8, toY: 10, label: "Erebus' Lair →" }
 		]

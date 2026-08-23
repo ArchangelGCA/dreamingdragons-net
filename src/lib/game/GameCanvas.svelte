@@ -274,14 +274,13 @@
 					ctx.fillRect((tx - startX) * TILE + offX, (ty - startY) * TILE + offY, TILE, TILE);
 					continue;
 				}
-				const tile = world.map.tiles[ty][tx];
-				const dx = tx - startX;
-				const dy = ty - startY;
-				// drawTile expects tile coords; translate via save
-				ctx.save();
-				ctx.translate(dx * TILE + offX, dy * TILE + offY);
-				drawTile(ctx, tile, 0, 0, s.time);
-				ctx.restore();
+			const dx = tx - startX;
+			const dy = ty - startY;
+			// drawTile draws at the origin; translate into place
+			ctx.save();
+			ctx.translate(dx * TILE + offX, dy * TILE + offY);
+			drawTile(ctx, s.mapId, tx, ty, s.time);
+			ctx.restore();
 			}
 		}
 
@@ -332,6 +331,8 @@
 			color: COLORS.accent,
 			dir: s.player.dir,
 			frame: s.frame,
+			moving: s.player.moving,
+			walkFrame: Math.floor(s.player.moveT * 8),
 			isPlayer: true,
 			belly: COLORS.accentLight,
 			spriteKey: 'rafe'

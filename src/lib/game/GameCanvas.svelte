@@ -6,7 +6,8 @@
 		VIEW_W,
 		VIEW_H,
 		COLORS,
-		KEY
+		KEY,
+		DIR
 	} from './constants.js';
 	import { WORLDS } from './maps.js';
 	import { drawTile, drawDragon, drawEnemy, drawNpcBubble, drawScreenFx } from './sprites.js';
@@ -324,9 +325,10 @@
 			drawEnemy(ctx, sx, sy, e.color, s.frame, e.isBoss, spriteKeyForEnemy(e));
 		}
 
-		// Player
+		// Player — sprite flips horizontally for LEFT/RIGHT; UP/DOWN keep last dir
 		const psx = (s.player.px / TILE - cx) * TILE;
 		const psy = (s.player.py / TILE - cy) * TILE;
+		const playerFlipX = s.player.lastHorizontalDir === DIR.RIGHT;
 		drawDragon(ctx, psx, psy, {
 			color: COLORS.accent,
 			dir: s.player.dir,
@@ -335,7 +337,8 @@
 			walkFrame: Math.floor(s.player.moveT * 8),
 			isPlayer: true,
 			belly: COLORS.accentLight,
-			spriteKey: 'rafe'
+			spriteKey: 'rafe',
+			flipX: playerFlipX
 		});
 	}
 
@@ -389,7 +392,8 @@
 			dir: 2,
 			frame: s.frame,
 			isPlayer: true,
-			spriteKey: 'rafe'
+			spriteKey: 'rafe',
+			flipX: true
 		});
 	}
 

@@ -33,12 +33,13 @@ const SPRITE_URLS = {
 /** Cardinal directions we render (game movement is 4-way). */
 export const DIRS = ['south', 'east', 'north', 'west'];
 
-/** Direction folders generated for Rafe (rotations + walk strips). */
-const RAFE_DIRS = ['south', 'east', 'north', 'west'];
+/** Only south-facing sprites are loaded — LEFT/RIGHT use flipX. */
+const RAFE_DIRS = ['south'];
 const RAFE_WALK_FRAMES = 8;
 
 /**
  * Build the URL list for directional character assets.
+ * Only south-facing sprites are loaded; left/right use canvas flipX.
  * Key scheme: `<name>:rot:<dir>` and `<name>:walk:<dir>:<frame>`.
  * @param {string} name
  */

@@ -192,7 +192,7 @@ export function drawTile(ctx, mapId, tx, ty, time = 0) {
  * @param {CanvasRenderingContext2D} ctx
  * @param {number} px pixel x (tile * TILE + offset)
  * @param {number} py pixel y
- * @param {{ color: string, dir?: number, frame?: number, moving?: boolean, walkFrame?: number, isPlayer?: boolean, isBoss?: boolean, belly?: string, spriteKey?: string }} opts
+ * @param {{ color: string, dir?: number, frame?: number, moving?: boolean, walkFrame?: number, isPlayer?: boolean, isBoss?: boolean, belly?: string, spriteKey?: string, flipX?: boolean }} opts
  */
 export function drawDragon(ctx, px, py, opts) {
 	const {
@@ -204,19 +204,20 @@ export function drawDragon(ctx, px, py, opts) {
 		isPlayer = false,
 		isBoss = false,
 		belly = COLORS.accentLight,
-		spriteKey = null
+		spriteKey = null,
+		flipX = false
 	} = opts;
 	const bob = frame % 2 ? -1 : 0;
 
-	// Directional sprite set (rotations + walk frames) — used by the player
+	// Directional sprite set: only south-facing sprites are loaded;
+	// LEFT/RIGHT use flipX, UP/DOWN keep the last horizontal direction.
 	if (spriteKey && hasDirectionalSet(spriteKey)) {
-		const dirName = DIR_NAMES[dir] ?? 'south';
-		const img = getDirectionalSprite(spriteKey, dirName, moving, walkFrame);
+		const img = getDirectionalSprite(spriteKey, 'south', moving, walkFrame);
 		if (img) {
 			const size = isBoss ? 30 : 26;
 			ctx.fillStyle = 'rgba(0,0,0,0.28)';
 			ctx.fillRect(px + 3, py + 13, 10, 3);
-			drawImageCentered(ctx, img, px, py, { size, bob: moving ? 0 : bob });
+			drawImageCentered(ctx, img, px, py, { size, bob: moving ? 0 : bob, flipX });
 			if (isPlayer) {
 				ctx.fillStyle = 'rgba(32, 221, 224, 0.25)';
 				ctx.fillRect(px + 4, py + 12, 8, 2);

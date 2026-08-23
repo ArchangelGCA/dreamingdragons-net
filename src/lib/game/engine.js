@@ -1,5 +1,5 @@
 import { DIR, KEY, TILE, keyMatches } from './constants.js';
-import { WORLDS, getTile, isSolid } from './maps.js';
+import { WORLDS, getTile, isSolid, T } from './maps.js';
 import { DIALOGUES, getQuestText } from './story.js';
 
 /**
@@ -16,6 +16,7 @@ export function createState() {
 			px: world.spawn.x * TILE,
 			py: world.spawn.y * TILE,
 			dir: DIR.DOWN,
+			lastHorizontalDir: DIR.DOWN,
 			moving: false,
 			moveT: 0,
 			fromX: world.spawn.x,
@@ -72,20 +73,6 @@ export function createState() {
 function cloneEnemies(mapId) {
 	const world = WORLDS[mapId];
 	return world.enemies.map((e) => ({ ...e, hp: e.hp, maxHp: e.maxHp }));
-}
-
-export function ensureMapEnemies(state, mapId) {
-	if (!state.enemies || state.mapId !== mapId) {
-		// handled by switchMap
-	}
-	const defeated = state.defeated[mapId] ?? new Set();
-	const base = WORLDS[mapId].enemies;
-	state.enemies = base
-		.filter((e) => !defeated.has(e.id))
-		.map((e) => {
-			const existing = state.enemies?.find((x) => x.id === e.id);
-			return existing ? existing : { ...e };
-		});
 }
 
 export function switchMap(state, mapId, x, y) {
@@ -161,9 +148,11 @@ export function updatePlay(state, dt) {
 	} else if (held(state, KEY.LEFT)) {
 		dx = -1;
 		p.dir = DIR.LEFT;
+		p.lastHorizontalDir = DIR.LEFT;
 	} else if (held(state, KEY.RIGHT)) {
 		dx = 1;
 		p.dir = DIR.RIGHT;
+		p.lastHorizontalDir = DIR.RIGHT;
 	}
 
 	if (dx !== 0 || dy !== 0) {
@@ -256,7 +245,7 @@ function onStep(state) {
 
 	// Fountain heal
 	const tile = getTile(state.mapId, p.x, p.y);
-	if (tile === 9) {
+	if (tile === T.FOUNTAIN) {
 		if (p.hp < p.maxHp) {
 			p.hp = p.maxHp;
 			showToast(state, 'Fully healed!');

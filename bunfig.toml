@@ -1,0 +1,22 @@
+# Bun 1.4 configuration
+# Docs: https://bun.sh/docs/runtime/bunfig
+
+[install]
+# Bun 1.4 uses the text-based `bun.lock` (human-readable) by default.
+# It auto-migrates from `package-lock.json` on first `bun install`.
+# Keep dependencies exact by default? disabled – use caret ranges from package.json.
+# Caching and frozen lockfile are controlled via CLI flags:
+#   bun install --frozen-lockfile   # CI – fail if lockfile needs update
+
+# Trusted dependencies – packages allowed to run lifecycle scripts (postinstall).
+# Bun 1.4 requires explicit trust for security. Add entries here if `bun install`
+# warns about untrusted packages. `workerd` (via wrangler) and `esbuild` are common.
+trustedDependencies = ["workerd", "esbuild"]
+
+[install.cache]
+# Use the shared global cache to speed up installs
+disable = false
+
+[run]
+# Use Bun's runtime for `bun run` scripts (faster than Node for Vite/SvelteKit)
+bun = true

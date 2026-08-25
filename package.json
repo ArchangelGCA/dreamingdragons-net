@@ -1,16 +1,20 @@
 {
 	"name": "dreamingdragons-net",
 	"private": true,
-	"version": "0.2.2",
+	"version": "0.3.0",
 	"type": "module",
+	"packageManager": "bun@1.4.0",
+	"engines": {
+		"bun": ">=1.4.0"
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
-		"preview": "npm run build && wrangler pages dev",
+		"preview": "bun run build && bunx wrangler pages dev build",
 		"preview2": "vite preview",
-		"prepare": "svelte-kit sync || echo ''",
-		"check:maps": "node scripts/check-game-maps.mjs",
-		"deploy": "npm run build && wrangler pages deploy"
+		"prepare": "svelte-kit sync",
+		"check:maps": "bun scripts/check-game-maps.mjs",
+		"deploy": "bun run build && bunx wrangler pages deploy build"
 	},
 	"devDependencies": {
 		"@fortawesome/fontawesome-free": "^7.3.1",
